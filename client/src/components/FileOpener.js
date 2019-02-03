@@ -4,9 +4,14 @@ const ImportFromFileBodyComponent = () => {
   let fileReader;
 
   const handleFileRead = e => {
-    const content = fileReader.result;
+    let content = fileReader.result;
+    content = content.split(">");
     console.log(content);
-    // … do something with the 'content' …
+    if(content.length > 1 ){
+      alert("It is a fasta file");
+    }else{
+      alert("It is not a fasta file");
+    }
   };
 
   const handleFileChosen = file => {
@@ -21,7 +26,7 @@ const ImportFromFileBodyComponent = () => {
         type="file"
         id="file"
         className="input-file"
-        accept=".txt,.csv"
+        accept=".txt,.fasta"
         onChange={e => handleFileChosen(e.target.files[0])}
       />
     </div>
