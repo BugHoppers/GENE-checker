@@ -6,9 +6,17 @@ const ImportFromFileBodyComponent = () => {
   const handleFileRead = e => {
     let content = fileReader.result;
     content = content.split(">");
-    console.log(content);
+    console.log();
     if(content.length > 1 ){
-      alert("It is a fasta file");
+      for(let i =1 ;i < content.length; i++){
+        if(content[i].includes("Reverse")){
+          console.log("REV")
+        }else if(content[i].includes("Forward")){
+          console.log("FOWD")
+        }else{
+          alert("Not a fasta file")
+        }
+      }
     }else{
       alert("It is not a fasta file");
     }
