@@ -1,64 +1,63 @@
 import React, { Component } from "react";
-
-const ImportFromFileBodyComponent = () => {
-  let fileReader;
-
-  const handleFileRead = e => {
-    let content = fileReader.result;
-    content = content.split(">");
-    console.log();
-    if(content.length > 1 ){
-      for(let i =1 ;i < content.length; i++){
-        if(content[i].includes("Reverse")){
-          console.log("REV")
-        }else if(content[i].includes("Forward")){
-          console.log("FOWD")
-        }else{
-          alert("Not a fasta file")
-        }
-      }
-    }else{
-      alert("It is not a fasta file");
-    }
-  };
-
-  const handleFileChosen = file => {
-    fileReader = new FileReader();
-    fileReader.onloadend = handleFileRead;
-    fileReader.readAsText(file);
-  };
-
-  return (
-    <div className="upload-expense">
-      <input
-        type="file"
-        id="file"
-        className="input-file"
-        accept=".txt,.fasta"
-        onChange={e => handleFileChosen(e.target.files[0])}
-      />
-    </div>
-  );
-};
+import DisplayGene from "./displayGene";
 
 export class FileOpener extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      file: ""
+      genes: []
     };
   }
-  onChange = e => {
-    let file = e.target.files[0];
-    let reader = new FileReader();
+  handleFileChosen = file => {
+    var reader = new FileReader();
+    let genes = [];
+    reader.onload = e => {
+      let content = reader.result;
+      content = content.split(">");
+      if (content.length > 1) {
+        for (let i = 1; i < content.length; i++) {
+          if (content[i].includes("Reverse")) {
+            console.log("REV");
+            genes.push(content[i]);
+            this.setState({ genes: genes });
+          } else if (content[i].includes("Forward")) {
+            console.log("FOWD");
+            genes.push(content[i]);
+            this.setState({ genes: genes });
+          } else {
+            alert("Not a fasta file");
+          }
+        }
+        console.log(this.state.genes);
+      } else {
+        alert("It is not a fasta file");
+      }
+    };
     reader.readAsText(file);
+  };
+
+  getGenes = () => {
+    return (
+      <div>
+        {this.state.genes.map((gene,i) => <DisplayGene key={i} details={gene}/>)}
+      </div>
+    );
   };
   render() {
     return (
       <div>
         <div onSubmit={this.onFormSubmit}>
           <p>Open A faster File</p>
-          <ImportFromFileBodyComponent />
+          <div className="upload-expense">
+            <input
+              type="file"
+              id="file"
+              className="input-file"
+              accept=".txt,.fasta"
+              onChange={e => this.handleFileChosen(e.target.files[0])}
+            />
+          </div>
+          {this.getGenes()}
         </div>
       </div>
     );
