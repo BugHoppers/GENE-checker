@@ -7,7 +7,10 @@ export class DisplayGene extends Component {
   render() {
     return (
       <div>
-          <p>{this.props.details}</p>
+          <h3>META</h3>
+          <p>{this.props.meta}</p>
+          <h3>GENE:</h3>
+          <p>{this.props.gene}</p>
       </div>
     )
   }

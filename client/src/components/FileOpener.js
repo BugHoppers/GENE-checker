@@ -5,30 +5,31 @@ export class FileOpener extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      genes: []
+      details: []
     };
   }
   handleFileChosen = file => {
     var reader = new FileReader();
-    let genes = [];
+    let details = []
     reader.onload = e => {
-      let content = reader.result;
-      content = content.split(">");
-      if (content.length > 1) {
-        for (let i = 1; i < content.length; i++) {
-          if (content[i].includes("Reverse")) {
-            console.log("REV");
-            genes.push(content[i]);
-            this.setState({ genes: genes });
-          } else if (content[i].includes("Forward")) {
-            console.log("FOWD");
-            genes.push(content[i]);
-            this.setState({ genes: genes });
+      let contents = reader.result;
+      contents = contents.split(">");
+      if (contents.length > 1) {
+        for (let i = 1; i < contents.length; i++) {
+          if (contents[i].includes("Reverse")) {
+            let content = contents[i].split("Reverse");
+            details.push({"meta": content[0], "gene": content[1]})
+            this.setState({ details: details});
+          } else if (contents[i].includes("Forward")) {
+            let content = contents[i].split("Forward");
+            details.push({"meta": content[0], "gene": content[1]})
+            this.setState({ details: details});
           } else {
             alert("Not a fasta file");
           }
         }
-        console.log(this.state.genes);
+        // console.log(this.state.genes);
+        // console.log(this.state.meta);
       } else {
         alert("It is not a fasta file");
       }
@@ -39,7 +40,7 @@ export class FileOpener extends Component {
   getGenes = () => {
     return (
       <div>
-        {this.state.genes.map((gene,i) => <DisplayGene key={i} details={gene}/>)}
+        {this.state.details.map((detail,i) => <DisplayGene key={i} meta={detail["meta"]} gene={detail["gene"]}/>)}
       </div>
     );
   };
