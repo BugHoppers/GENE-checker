@@ -17,7 +17,8 @@ app.get("/", (req, res) => {
 app.post("/upload", function(req, res) {
     console.log("upload");
     //console.log(req.body.files);
-    parseFile(req.body.files);
+    let data = parseFile(req.body.files);
+    // console.log(data[1])
 });
 
 app.listen(config.PORT, () => {
