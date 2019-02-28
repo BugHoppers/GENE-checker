@@ -21,7 +21,9 @@ app.post("/upload", function (req, res) {
   
   let data = parseFile.handleFileChosen(req.body.files);
   let details = parseFile.getDetails(gene_details);
+  console.log(details);
   database.insert("gene_data", data);
+  database.insert("gene_details", details);
 });
 
 app.listen(config.PORT, () => {
