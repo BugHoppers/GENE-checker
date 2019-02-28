@@ -9,12 +9,12 @@ export class FileOpener extends Component {
     };
   }
 
-  handleFileChosen =async  (file) => {
+  handleFileChosen = async (file) => {
     var reader = new FileReader();
     let contents;
     reader.onload = e => {
       contents = reader.result;
-      axios.post("/upload",{
+      axios.post("/upload", {
         "files": contents
       });
     }
@@ -24,7 +24,7 @@ export class FileOpener extends Component {
   getGenes = () => {
     return (
       <div>
-        {this.state.details.map((detail,i) => <DisplayGene key={i} meta={detail["meta"]} gene={detail["gene"]}/>)}
+        {this.state.details.map((detail, i) => <DisplayGene key={i} meta={detail["meta"]} gene={detail["gene"]} />)}
       </div>
     );
   };
@@ -32,7 +32,7 @@ export class FileOpener extends Component {
     return (
       <div>
         <div onSubmit={this.onFormSubmit}>
-          <p>Open A faster File</p>
+          <p>Open a fasta File</p>
           <div className="upload-expense">
             <input
               type="file"
