@@ -6,7 +6,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <p>App</p>
+        <p>GENE CHECKER</p>
         <FileOpener/>
       </div>
     );
