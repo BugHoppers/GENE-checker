@@ -4,6 +4,8 @@ const config = require("./config");
 const parseFile = require("./parseFile");
 const database = require('./database');
 const app = new express();
+const fs = require('fs');
+const gene_details = fs.readFileSync('fasta_file_samples/GeneDetails.txt.txt', 'utf8');
 
 app.use(bodyParser.json());
 
@@ -16,9 +18,9 @@ app.get("/", (req, res) => {
 
 app.post("/upload", function (req, res) {
   console.log("upload");
-  //console.log(req.body.files);
-  let data = parseFile(req.body.files);
-  // console.log(data);
+  
+  let data = parseFile.handleFileChosen(req.body.files);
+  let details = parseFile.getDetails(gene_details);
   database.insert("gene_data", data);
 });
 
