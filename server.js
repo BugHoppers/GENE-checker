@@ -8,7 +8,7 @@ const fs = require("fs");
 const csvWriter = require("csv-write-stream");
 const writer = csvWriter();
 const gene_details = fs.readFileSync(
-  "fasta_file_samples/GeneDetails.txt.txt",
+  "fasta_file_samples/GeneDetails.txt",
   "utf8"
 );
 
