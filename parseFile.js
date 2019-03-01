@@ -1,9 +1,13 @@
 handleFileChosen = contents => {
   let details = [];
   contents = contents.split(">");
+  console.log(contents.length);
   if (contents.length > 1) {
     for (let i = 1; i < contents.length; i++) {
-      if (contents[i].includes("Reverse")) {
+      if(contents[i].includes("genome")){
+        split_term="genome";
+      }
+      else if (contents[i].includes("Reverse")) {
         split_term = "Reverse";
       } else if (contents[i].includes("Forward")) {
         split_term = "Forward";
@@ -11,7 +15,8 @@ handleFileChosen = contents => {
         console.log("Not a fasta file");
       }
       let content = contents[i].split(split_term);
-      if (content[1].match("[^ATGC]*")[0].length > 1) {
+      if (content[1].match("[^ATGC]*")[0].length > 3) {
+        console.log(content[1].match("[^ATGC]*")[0])
         console.log("Error in gene");
         return null;
       } else {
