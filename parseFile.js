@@ -20,12 +20,13 @@ handleFileChosen = contents => {
         console.log("Error in gene");
         return null;
       } else {
+        content[1] = content[1].replace(new RegExp('\r?\n','g'),'');
         len = content[1].length;
         countA = (content[1].match(/A/g) || []).length;
         countT = (content[1].match(/T/g) || []).length;
         countG = (content[1].match(/G/g) || []).length;
         countC = (content[1].match(/C/g) || []).length;
-        per = (countG + countC) * 100.0 / (countA + countT + countG + countC);
+        per = (countG + countC) * 100.0 / len;
         details.push({
           meta: content[0],
           gene: content[1],
