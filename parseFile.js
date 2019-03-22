@@ -27,6 +27,7 @@ handleFileChosen = contents => {
         countG = (content[1].match(/G/g) || []).length;
         countC = (content[1].match(/C/g) || []).length;
         per = (countG + countC) * 100.0 / len;
+        console.log((content[0].substring(content[0].indexOf(":") + 1)).split(" ")[0]);
         details.push({
           meta: content[0],
           gene: content[1],
@@ -35,7 +36,8 @@ handleFileChosen = contents => {
           count_G: countG,
           count_C: countC,
           length: len,
-          percentage_G_C: per
+          percentage_G_C: per,
+          range: (content[0].substring(content[0].indexOf(":") + 1)).split(" ")[0]
         });
       }
     }
