@@ -27,6 +27,10 @@ handleFileChosen = contents => {
         countC = (content[1].match(/C/g) || []).length;
         per = (countG + countC) * 100.0 / len;
         loc = (content[0].substring(content[0].indexOf(":") + 1)).split(" ")[0];
+        if (loc[0] == 'c') {
+          let temp = loc.split("-");
+          loc = temp[1] + "-" + temp[0].slice(1);
+        }
         if (len > 2) {
           details.push({
             meta: content[0],
