@@ -4,10 +4,9 @@ handleFileChosen = contents => {
   console.log(contents.length);
   if (contents.length > 1) {
     for (let i = 1; i < contents.length; i++) {
-      if(contents[i].includes("genome")){
-        split_term="genome";
-      }
-      else if (contents[i].includes("Reverse")) {
+      if (contents[i].includes("genome")) {
+        split_term = "genome";
+      } else if (contents[i].includes("Reverse")) {
         split_term = "Reverse";
       } else if (contents[i].includes("Forward")) {
         split_term = "Forward";
@@ -20,25 +19,27 @@ handleFileChosen = contents => {
         console.log("Error in gene");
         return null;
       } else {
-        content[1] = content[1].replace(new RegExp('\r?\n','g'),'');
+        content[1] = content[1].replace(new RegExp('\r?\n', 'g'), '');
         len = content[1].length;
         countA = (content[1].match(/A/g) || []).length;
         countT = (content[1].match(/T/g) || []).length;
         countG = (content[1].match(/G/g) || []).length;
         countC = (content[1].match(/C/g) || []).length;
         per = (countG + countC) * 100.0 / len;
-        console.log((content[0].substring(content[0].indexOf(":") + 1)).split(" ")[0]);
-        details.push({
-          meta: content[0],
-          gene: content[1],
-          count_A: countA,
-          count_T: countT,
-          count_G: countG,
-          count_C: countC,
-          length: len,
-          percentage_G_C: per,
-          range: (content[0].substring(content[0].indexOf(":") + 1)).split(" ")[0]
-        });
+        loc = (content[0].substring(content[0].indexOf(":") + 1)).split(" ")[0];
+        if (len > 2) {
+          details.push({
+            meta: content[0],
+            range: loc,
+            gene: content[1],
+            count_A: countA,
+            count_T: countT,
+            count_G: countG,
+            count_C: countC,
+            length: len,
+            percentage_G_C: per
+          });
+        }
       }
     }
   } else {
