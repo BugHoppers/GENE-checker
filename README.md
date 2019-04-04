@@ -1,6 +1,13 @@
-### SOFTWARE ENGINEERING PROJECT
+# SOFTWARE ENGINEERING PROJECT
 
 
 ### STEPS TO RUN
-* `npm run client-install`
-* `npm run client`
+
+#### Server :
+
+        $ nodemon server.js
+
+#### Client :
+
+        $ cd client
+        $ npm run
