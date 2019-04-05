@@ -31,10 +31,10 @@ handleFileChosen = contents => {
           let temp = loc.split("-");
           loc = temp[1] + "-" + temp[0].slice(1);
         }
-        if (loc.indexOf(",")!=-1) {
+        if (loc.indexOf(",")==-1) {
           details.push({
             meta: content[0],
-            range: loc,
+            Location: loc,
             gene: content[1],
             count_A: countA,
             count_T: countT,
@@ -59,7 +59,7 @@ getDetails = data => {
   for (let i = 3; i < lines.length; i++) {
     let x = lines[i].split(/\t/);
     gene_details.push({
-      Location: x[0],
+      Location: x[0].replace("..","-"),
       Strand: x[1],
       Length: x[2],
       PID: x[3],
