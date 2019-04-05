@@ -31,7 +31,7 @@ handleFileChosen = contents => {
           let temp = loc.split("-");
           loc = temp[1] + "-" + temp[0].slice(1);
         }
-        if (len > 2) {
+        if (loc.indexOf(",")!=-1) {
           details.push({
             meta: content[0],
             range: loc,
