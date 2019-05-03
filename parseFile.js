@@ -1,8 +1,8 @@
 get_protein_sequence = (gene_seq) => {
   let protein_seq = "";
-  let gene = gene_seq.replace(/T/g, "U")
-  let gene_arr = gene.match(/.{1,3}/g);
+  let gene_arr = gene_seq.match(/.{1,3}/g);
   // console.log(gene_arr)
+  let flag = 0;
   for (const gene of gene_arr) {
     if (gene[0] == 'U') {
       if (gene[1] == 'U') {
@@ -18,9 +18,10 @@ get_protein_sequence = (gene_seq) => {
       } else if (gene[1] == 'A') {
         if (gene[2] == 'U' || gene[2] == 'C') {
           protein_seq = protein_seq + "Tyr";
-        } else if (gene[2] == 'U' || gene[2] == 'C') {
+        } else if (gene[2] == 'A' || gene[2] == 'G') {
           // protein_seq = protein_seq + "Leu";
-          // stop
+          // stopr
+          flag = 1;
         }
 
       } else if (gene[1] == 'G') {
@@ -29,6 +30,7 @@ get_protein_sequence = (gene_seq) => {
         } else if (gene[2] == 'A') {
           // protein_seq = protein_seq + "Leu";
           // stop
+          flag = 1;
         } else if (gene[2] == 'G') {
           protein_seq = protein_seq + "Trip";
         }
@@ -57,10 +59,8 @@ get_protein_sequence = (gene_seq) => {
       if (gene[1] == 'U') {
         if (gene[2] == 'U' || gene[2] == 'C' || gene[3] == 'A') {
           protein_seq = protein_seq + "lie";
-          // console.log(protein_seq);
         } else if (gene[2] == 'G') {
-          // protein_seq = protein_seq + "Leu";
-          // stop
+          protein_seq = protein_seq + "Met";
         }
       } else if (gene[1] == 'C') {
         if (gene[2] == 'U' || gene[2] == 'C' || gene[2] == 'A' || gene[2] == 'G') {
@@ -76,9 +76,8 @@ get_protein_sequence = (gene_seq) => {
       } else if (gene[1] == 'G') {
         if (gene[2] == 'U' || gene[2] == 'C') {
           protein_seq = protein_seq + "Ser";
-        } else if (gene[2] == 'U' || gene[2] == 'C') {
+        } else if (gene[2] == 'A' || gene[2] == 'G') {
           protein_seq = protein_seq + "Arg";
-          // stop
         }
       }
     } else if (gene[0] == 'G') {
@@ -93,9 +92,8 @@ get_protein_sequence = (gene_seq) => {
       } else if (gene[1] == 'A') {
         if (gene[2] == 'U' || gene[2] == 'C') {
           protein_seq = protein_seq + "Asp";
-        } else if (gene[2] == 'U' || gene[2] == 'C') {
+        } else if (gene[2] == 'A' || gene[2] == 'G') {
           protein_seq = protein_seq + "Glu";
-          // stop
         }
       } else if (gene[1] == 'G') {
         if (gene[2] == 'U' || gene[2] == 'C' || gene[2] == 'A' || gene[2] == 'G') {
@@ -105,6 +103,7 @@ get_protein_sequence = (gene_seq) => {
       }
     }
   }
+  // console.log(flag);
   return protein_seq;
 }
 
@@ -124,6 +123,16 @@ handleFileChosen = contents => {
         console.log("Not a fasta file");
       }
       let content = contents[i].split(split_term);
+      let gene = content[1].replace(/T/g, "U");
+      let gene_arr = gene.match(/.{1,3}/g);
+      let correct = true
+      for (let i=0; i<gene_arr.length - 1;i++){
+        // console.log(g);
+        if(gene_arr[i].includes("UGA") || gene_arr[i].includes("UAA") || gene_arr[i].includes("UAG")){
+          // console.log("FOund")
+          correct = false;
+        }
+      }
       if (content[1].match("[^ATGC]*")[0].length > 3) {
         console.log(content[1].match("[^ATGC]*")[0])
         console.log("Error in gene");
@@ -135,7 +144,7 @@ handleFileChosen = contents => {
         countT = (content[1].match(/T/g) || []).length;
         countG = (content[1].match(/G/g) || []).length;
         countC = (content[1].match(/C/g) || []).length;
-        let protein_seq = get_protein_sequence(content[1]);
+        let protein_seq = get_protein_sequence(gene);
         // console.log(protein_seq);
         per = (countG + countC) * 100.0 / len;
         loc = (content[0].substring(content[0].indexOf(":") + 1)).split(" ")[0];
@@ -143,6 +152,7 @@ handleFileChosen = contents => {
           let temp = loc.split("-");
           loc = temp[1] + "-" + temp[0].slice(1);
         }
+        
         if (loc.indexOf(",") == -1) {
           details.push({
             meta: content[0],
@@ -154,7 +164,8 @@ handleFileChosen = contents => {
             count_G: countG,
             count_C: countC,
             length: len,
-            percentage_G_C: per
+            percentage_G_C: per,
+            correct : correct
           });
         }
       }

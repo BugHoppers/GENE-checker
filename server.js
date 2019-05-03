@@ -27,7 +27,7 @@ app.get("/", (req, res) => {
   });
 });
 
-app.post("/upload", function(req, res) {
+app.post("/upload", function (req, res) {
   console.log("upload");
 
   let data = parseFile.handleFileChosen(req.body.files);
@@ -38,17 +38,21 @@ app.post("/upload", function(req, res) {
     database.insert("gene_data", data);
     database.insert("gene_details", details);
     let complete_gene = [];
-    for(let k=0;k < data.length; k++){
-      for(let l=0;l < details.length;l++){
-        if(data[k]["Location"] == details[l]["Location"]){
-          complete_gene.push({
-            ...data[k], ...details[l]
-          })
+    for (let k = 0; k < data.length; k++) {
+      for (let l = 0; l < details.length; l++) {
+        if (data[k]["Location"] == details[l]["Location"]) {
+          if (data[k]["correct"] == false) {
+            console.log(`Stop codon found in gene ${details[l]["Gene"]}`)
+          } else {
+            complete_gene.push({
+              ...data[k], ...details[l]
+            })
+          }
         }
       }
     }
     // console.log(complete_gene[0]);
-    
+
     database.insert("complete_gene", complete_gene);
 
 
