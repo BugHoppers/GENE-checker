@@ -1,3 +1,111 @@
+get_protein_sequence = (gene_seq) => {
+  let protein_seq = "";
+  let gene_arr = gene_seq.match(/.{1,3}/g);
+  // console.log(gene_arr)
+  for (gene in gene_arr) {
+    if (gene[0] == 'U') {
+      if (gene[1] == 'U') {
+        if (gene[2] == 'U' || gene[2] == 'C') {
+          protein_seq = protein_seq + "Phe";
+        } else if (gene[2] == 'A' || gene[2] == 'G') {
+          protein_seq = protein_seq + "Leu";
+        }
+      } else if (gene[1] == 'C') {
+        if (gene[2] == 'U' || gene[2] == 'C' || gene[2] == 'A' || gene[2] == 'G') {
+          protein_seq = protein_seq + "Leu";
+        }
+      } else if (gene[1] == 'A') {
+        if (gene[2] == 'U' || gene[2] == 'C') {
+          protein_seq = protein_seq + "Tyr";
+        } else if (gene[2] == 'U' || gene[2] == 'C') {
+          // protein_seq = protein_seq + "Leu";
+          // stop
+        }
+
+      } else if (gene[1] == 'G') {
+        if (gene[2] == 'U' || gene[2] == 'C') {
+          protein_seq = protein_seq + "Cys";
+        } else if (gene[2] == 'A') {
+          // protein_seq = protein_seq + "Leu";
+          // stop
+        } else if (gene[2] == 'G') {
+          protein_seq = protein_seq + "Trip";
+        }
+      }
+    } else if (gene[0] == 'C') {
+      if (gene[1] == 'U') {
+        if (gene[2] == 'U' || gene[2] == 'C' || gene[2] == 'A' || gene[2] == 'G') {
+          protein_seq = protein_seq + "Leu";
+        }
+      } else if (gene[1] == 'C') {
+        if (gene[2] == 'U' || gene[2] == 'C' || gene[2] == 'A' || gene[2] == 'G') {
+          protein_seq = protein_seq + "Pro";
+        }
+      } else if (gene[1] == 'A') {
+        if (gene[2] == 'U' || gene[2] == 'C') {
+          protein_seq = protein_seq + "His";
+        } else if (gene[2] == 'A' || gene[2] == 'G') {
+          protein_seq = protein_seq + "Gln";
+        }
+      } else if (gene[1] == 'G') {
+        if (gene[2] == 'U' || gene[2] == 'C' || gene[2] == 'A' || gene[2] == 'G') {
+          protein_seq = protein_seq + "Arg";
+        }
+      }
+    } else if (gene[0] == 'A') {
+      if (gene[1] == 'U') {
+        if (gene[2] == 'U' || gene[2] == 'C' || gene[3] == 'A') {
+          protein_seq = protein_seq + "lie";
+        } else if (gene[2] == 'G') {
+          // protein_seq = protein_seq + "Leu";
+          // stop
+        }
+      } else if (gene[1] == 'C') {
+        if (gene[2] == 'U' || gene[2] == 'C' || gene[2] == 'A' || gene[2] == 'G') {
+          protein_seq = protein_seq + "Thr";
+        }
+
+      } else if (gene[1] == 'A') {
+        if (gene[2] == 'U' || gene[2] == 'C') {
+          protein_seq = protein_seq + "Asp";
+        } else if (gene[2] == 'A' || gene[2] == 'G') {
+          protein_seq = protein_seq + "Lys";
+        }
+      } else if (gene[1] == 'G') {
+        if (gene[2] == 'U' || gene[2] == 'C') {
+          protein_seq = protein_seq + "Ser";
+        } else if (gene[2] == 'U' || gene[2] == 'C') {
+          protein_seq = protein_seq + "Arg";
+          // stop
+        }
+      }
+    } else if (gene[0] == 'G') {
+      if (gene[1] == 'U') {
+        if (gene[2] == 'U' || gene[2] == 'C' || gene[2] == 'A' || gene[2] == 'G') {
+          protein_seq = protein_seq + "Val";
+        }
+      } else if (gene[1] == 'C') {
+        if (gene[2] == 'U' || gene[2] == 'C' || gene[2] == 'A' || gene[2] == 'G') {
+          protein_seq = protein_seq + "ALs";
+        }
+      } else if (gene[1] == 'A') {
+        if (gene[2] == 'U' || gene[2] == 'C') {
+          protein_seq = protein_seq + "Asp";
+        } else if (gene[2] == 'U' || gene[2] == 'C') {
+          protein_seq = protein_seq + "Glu";
+          // stop
+        }
+      } else if (gene[1] == 'G') {
+        if (gene[2] == 'U' || gene[2] == 'C' || gene[2] == 'A' || gene[2] == 'G') {
+          protein_seq = protein_seq + "Gly";
+        }
+
+      }
+    }
+  }
+  console.log(protein_seq,protein_seq.length)
+}
+
 handleFileChosen = contents => {
   let details = [];
   contents = contents.split(">");
@@ -25,13 +133,14 @@ handleFileChosen = contents => {
         countT = (content[1].match(/T/g) || []).length;
         countG = (content[1].match(/G/g) || []).length;
         countC = (content[1].match(/C/g) || []).length;
+        let proteein_seq = get_protein_sequence(content[1]);
         per = (countG + countC) * 100.0 / len;
         loc = (content[0].substring(content[0].indexOf(":") + 1)).split(" ")[0];
         if (loc[0] == 'c') {
           let temp = loc.split("-");
           loc = temp[1] + "-" + temp[0].slice(1);
         }
-        if (loc.indexOf(",")==-1) {
+        if (loc.indexOf(",") == -1) {
           details.push({
             meta: content[0],
             Location: loc,
@@ -59,7 +168,7 @@ getDetails = data => {
   for (let i = 3; i < lines.length; i++) {
     let x = lines[i].split(/\t/);
     gene_details.push({
-      Location: x[0].replace("..","-"),
+      Location: x[0].replace("..", "-"),
       Strand: x[1],
       Length: x[2],
       PID: x[3],
