@@ -1,8 +1,9 @@
 get_protein_sequence = (gene_seq) => {
   let protein_seq = "";
-  let gene_arr = gene_seq.match(/.{1,3}/g);
+  let gene = gene_seq.replace(/T/g, "U")
+  let gene_arr = gene.match(/.{1,3}/g);
   // console.log(gene_arr)
-  for (gene in gene_arr) {
+  for (const gene of gene_arr) {
     if (gene[0] == 'U') {
       if (gene[1] == 'U') {
         if (gene[2] == 'U' || gene[2] == 'C') {
@@ -56,6 +57,7 @@ get_protein_sequence = (gene_seq) => {
       if (gene[1] == 'U') {
         if (gene[2] == 'U' || gene[2] == 'C' || gene[3] == 'A') {
           protein_seq = protein_seq + "lie";
+          // console.log(protein_seq);
         } else if (gene[2] == 'G') {
           // protein_seq = protein_seq + "Leu";
           // stop
@@ -103,7 +105,7 @@ get_protein_sequence = (gene_seq) => {
       }
     }
   }
-  console.log(protein_seq,protein_seq.length)
+  return protein_seq;
 }
 
 handleFileChosen = contents => {
@@ -133,7 +135,8 @@ handleFileChosen = contents => {
         countT = (content[1].match(/T/g) || []).length;
         countG = (content[1].match(/G/g) || []).length;
         countC = (content[1].match(/C/g) || []).length;
-        let proteein_seq = get_protein_sequence(content[1]);
+        let protein_seq = get_protein_sequence(content[1]);
+        // console.log(protein_seq);
         per = (countG + countC) * 100.0 / len;
         loc = (content[0].substring(content[0].indexOf(":") + 1)).split(" ")[0];
         if (loc[0] == 'c') {
@@ -145,6 +148,7 @@ handleFileChosen = contents => {
             meta: content[0],
             Location: loc,
             gene: content[1],
+            protein_seq: protein_seq,
             count_A: countA,
             count_T: countT,
             count_G: countG,
