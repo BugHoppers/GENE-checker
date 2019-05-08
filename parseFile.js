@@ -1,109 +1,105 @@
 get_protein_sequence = (gene_seq) => {
   let protein_seq = "";
+  gene_seq = gene_seq.replace(/\r?\n|\r/g,"");
   let gene_arr = gene_seq.match(/.{1,3}/g);
-  // console.log(gene_arr)
   let flag = 0;
+  let i=0;
   for (const gene of gene_arr) {
     if (gene[0] == 'U') {
       if (gene[1] == 'U') {
         if (gene[2] == 'U' || gene[2] == 'C') {
-          protein_seq = protein_seq + "Phe";
+          protein_seq = protein_seq + "F";
         } else if (gene[2] == 'A' || gene[2] == 'G') {
-          protein_seq = protein_seq + "Leu";
+          protein_seq = protein_seq + "L";
         }
       } else if (gene[1] == 'C') {
         if (gene[2] == 'U' || gene[2] == 'C' || gene[2] == 'A' || gene[2] == 'G') {
-          protein_seq = protein_seq + "Leu";
+          protein_seq = protein_seq + "S";
         }
       } else if (gene[1] == 'A') {
         if (gene[2] == 'U' || gene[2] == 'C') {
-          protein_seq = protein_seq + "Tyr";
+          protein_seq = protein_seq + "Y";
         } else if (gene[2] == 'A' || gene[2] == 'G') {
-          // protein_seq = protein_seq + "Leu";
-          // stopr
-          flag = 1;
+          protein_seq = protein_seq + "STOP";
         }
 
       } else if (gene[1] == 'G') {
         if (gene[2] == 'U' || gene[2] == 'C') {
-          protein_seq = protein_seq + "Cys";
+          protein_seq = protein_seq + "C";
         } else if (gene[2] == 'A') {
-          // protein_seq = protein_seq + "Leu";
-          // stop
-          flag = 1;
+          protein_seq = protein_seq + "STOP";
         } else if (gene[2] == 'G') {
-          protein_seq = protein_seq + "Trip";
+          protein_seq = protein_seq + "W";
         }
       }
     } else if (gene[0] == 'C') {
       if (gene[1] == 'U') {
         if (gene[2] == 'U' || gene[2] == 'C' || gene[2] == 'A' || gene[2] == 'G') {
-          protein_seq = protein_seq + "Leu";
+          protein_seq = protein_seq + "L";
         }
       } else if (gene[1] == 'C') {
         if (gene[2] == 'U' || gene[2] == 'C' || gene[2] == 'A' || gene[2] == 'G') {
-          protein_seq = protein_seq + "Pro";
+          protein_seq = protein_seq + "P";
         }
       } else if (gene[1] == 'A') {
         if (gene[2] == 'U' || gene[2] == 'C') {
-          protein_seq = protein_seq + "His";
+          protein_seq = protein_seq + "H";
         } else if (gene[2] == 'A' || gene[2] == 'G') {
-          protein_seq = protein_seq + "Gln";
+          protein_seq = protein_seq + "Q";
         }
       } else if (gene[1] == 'G') {
         if (gene[2] == 'U' || gene[2] == 'C' || gene[2] == 'A' || gene[2] == 'G') {
-          protein_seq = protein_seq + "Arg";
+          protein_seq = protein_seq + "R";
         }
       }
     } else if (gene[0] == 'A') {
       if (gene[1] == 'U') {
         if (gene[2] == 'U' || gene[2] == 'C' || gene[3] == 'A') {
-          protein_seq = protein_seq + "lie";
+          protein_seq = protein_seq + "I";
         } else if (gene[2] == 'G') {
-          protein_seq = protein_seq + "Met";
+          protein_seq = protein_seq + "M";
         }
       } else if (gene[1] == 'C') {
         if (gene[2] == 'U' || gene[2] == 'C' || gene[2] == 'A' || gene[2] == 'G') {
-          protein_seq = protein_seq + "Thr";
+          protein_seq = protein_seq + "T";
         }
 
       } else if (gene[1] == 'A') {
         if (gene[2] == 'U' || gene[2] == 'C') {
-          protein_seq = protein_seq + "Asp";
+          protein_seq = protein_seq + "N";
         } else if (gene[2] == 'A' || gene[2] == 'G') {
-          protein_seq = protein_seq + "Lys";
+          protein_seq = protein_seq + "K";
         }
       } else if (gene[1] == 'G') {
         if (gene[2] == 'U' || gene[2] == 'C') {
-          protein_seq = protein_seq + "Ser";
+          protein_seq = protein_seq + "S";
         } else if (gene[2] == 'A' || gene[2] == 'G') {
-          protein_seq = protein_seq + "Arg";
+          protein_seq = protein_seq + "R";
         }
       }
     } else if (gene[0] == 'G') {
       if (gene[1] == 'U') {
         if (gene[2] == 'U' || gene[2] == 'C' || gene[2] == 'A' || gene[2] == 'G') {
-          protein_seq = protein_seq + "Val";
+          protein_seq = protein_seq + "V";
         }
       } else if (gene[1] == 'C') {
         if (gene[2] == 'U' || gene[2] == 'C' || gene[2] == 'A' || gene[2] == 'G') {
-          protein_seq = protein_seq + "ALs";
+          protein_seq = protein_seq + "A";
         }
       } else if (gene[1] == 'A') {
         if (gene[2] == 'U' || gene[2] == 'C') {
-          protein_seq = protein_seq + "Asp";
+          protein_seq = protein_seq + "D";
         } else if (gene[2] == 'A' || gene[2] == 'G') {
-          protein_seq = protein_seq + "Glu";
+          protein_seq = protein_seq + "E";
         }
       } else if (gene[1] == 'G') {
         if (gene[2] == 'U' || gene[2] == 'C' || gene[2] == 'A' || gene[2] == 'G') {
-          protein_seq = protein_seq + "Gly";
+          protein_seq = protein_seq + "G";
         }
 
       }
     }
   }
-  // console.log(flag);
   return protein_seq;
 }
 
@@ -124,12 +120,11 @@ handleFileChosen = contents => {
       }
       let content = contents[i].split(split_term);
       let gene = content[1].replace(/T/g, "U");
+      gene = gene.replace(/\r?\n|\r/g,"");
       let gene_arr = gene.match(/.{1,3}/g);
       let correct = true
-      for (let i=0; i<gene_arr.length - 1;i++){
-        // console.log(g);
+      for (let i=0; i< gene_arr.length - 1;i++){
         if(gene_arr[i].includes("UGA") || gene_arr[i].includes("UAA") || gene_arr[i].includes("UAG")){
-          // console.log("FOund")
           correct = false;
         }
       }
@@ -145,14 +140,12 @@ handleFileChosen = contents => {
         countG = (content[1].match(/G/g) || []).length;
         countC = (content[1].match(/C/g) || []).length;
         let protein_seq = get_protein_sequence(gene);
-        // console.log(protein_seq);
         per = (countG + countC) * 100.0 / len;
         loc = (content[0].substring(content[0].indexOf(":") + 1)).split(" ")[0];
         if (loc[0] == 'c') {
           let temp = loc.split("-");
           loc = temp[1] + "-" + temp[0].slice(1);
         }
-        
         if (loc.indexOf(",") == -1) {
           details.push({
             meta: content[0],
@@ -194,7 +187,6 @@ getDetails = data => {
       Product: x[8]
     });
   }
-  // console.log(gene_details[1]);
   return gene_details;
 };
 

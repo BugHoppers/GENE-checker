@@ -43,11 +43,10 @@ app.post("/upload", function (req, res) {
         if (data[k]["Location"] == details[l]["Location"]) {
           if (data[k]["correct"] == false) {
             console.log(`Stop codon found in gene ${details[l]["Gene"]}`)
-          } else {
-            complete_gene.push({
-              ...data[k], ...details[l]
-            })
           }
+          complete_gene.push({
+            ...data[k], ...details[l]
+          })
         }
       }
     }
