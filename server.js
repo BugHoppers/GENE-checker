@@ -27,6 +27,13 @@ app.get("/", (req, res) => {
   });
 });
 
+app.get("/genes",(req, res) => {
+  database.readGenes("complete_gene",(result)=>{
+    // console.log(result);
+    res.status(200).send(result);
+  });
+});
+
 app.post("/upload", function (req, res) {
   console.log("upload");
 

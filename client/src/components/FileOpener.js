@@ -20,11 +20,15 @@ export class FileOpener extends Component {
     }
     reader.readAsText(file);
   };
-
+  getGenesFromServer = () => {
+    axios.get("/genes").then((res) => {
+      this.setState({details: res["data"]});
+    });
+  }
   getGenes = () => {
     return (
       <div>
-        {this.state.details.map((detail, i) => <DisplayGene key={i} meta={detail["meta"]} gene={detail["gene"]} />)}
+        {this.state.details.map((detail, i) => <DisplayGene key={i} gene={detail} />)}
       </div>
     );
   };
@@ -44,6 +48,7 @@ export class FileOpener extends Component {
           </div>
           {this.getGenes()}
         </div>
+        <button onClick={this.getGenesFromServer()}>Get Genes From server</button>
       </div>
     );
   }

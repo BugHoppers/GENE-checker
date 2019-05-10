@@ -1,3 +1,4 @@
+const effictive_codons = require("./effective_condons");
 get_protein_sequence = (gene_seq) => {
   let protein_seq = "";
   gene_seq = gene_seq.replace(/\r?\n|\r/g,"");
@@ -133,7 +134,8 @@ handleFileChosen = contents => {
         console.log("Error in gene");
         return null;
       } else {
-        content[1] = content[1].replace(new RegExp('\r?\n', 'g'), '');
+        content[1] = content[1].replace(/\r?\n|\r/g, '');
+        let no_of_effective_codons = effictive_codons.effective_no_of_codons(content[1]);
         len = content[1].length;
         countA = (content[1].match(/A/g) || []).length;
         countT = (content[1].match(/T/g) || []).length;
@@ -150,6 +152,7 @@ handleFileChosen = contents => {
           details.push({
             meta: content[0],
             Location: loc,
+            Nc: no_of_effective_codons,
             gene: content[1],
             protein_seq: protein_seq,
             count_A: countA,
